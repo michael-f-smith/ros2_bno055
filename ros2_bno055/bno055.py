@@ -158,7 +158,7 @@ class BNO055Pub(rclpy.node.Node):
             try:
                 setattr(msg.orientation, a, bno055_quaternion[i])
             except:
-                print(f"{bno055_quaternion[i]} is not a float")
+                self.get_logger().debug("bno055_quaternion[i] is not a float")
 
         msg.orientation_covariance = ORIENTATION_COVARIANCE
 
@@ -173,7 +173,7 @@ class BNO055Pub(rclpy.node.Node):
             try:
                 setattr(msg.linear_acceleration, a, bno055_linear_accel[i])
             except:
-                print(f"{bno055_linear_accel[i]} is not a float")
+                self.get_logger().debug("bno055_linear_accel[i] is not a float")
         msg.linear_acceleration_covariance = LINEAR_ACCELERATION_COVARIANCE
 
         self._imu_pub.publish(msg)
