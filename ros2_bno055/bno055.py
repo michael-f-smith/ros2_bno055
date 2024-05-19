@@ -155,7 +155,10 @@ class BNO055Pub(rclpy.node.Node):
         bno055_linear_accel = self.bno055.linear_acceleration
 
         for i, a in enumerate(['x', 'y', 'z', 'w']):
-            setattr(msg.orientation, a, bno055_quaternion[i])
+            try:
+                setattr(msg.orientation, a, bno055_quaternion[i])
+            except:
+                print(f"{bno055_quaternion[i]} is not a float")
 
         msg.orientation_covariance = ORIENTATION_COVARIANCE
 
@@ -167,8 +170,10 @@ class BNO055Pub(rclpy.node.Node):
         msg.angular_velocity_covariance = ANGULAR_VELOCITY_COVARIANCE
 
         for i, a in enumerate(['x', 'y', 'z']):
-            setattr(msg.linear_acceleration, a, bno055_linear_accel[i])
-
+            try:
+                setattr(msg.linear_acceleration, a, bno055_linear_accel[i])
+            except:
+                print(f"{bno055_linear_accel[i]} is not a float")
         msg.linear_acceleration_covariance = LINEAR_ACCELERATION_COVARIANCE
 
         self._imu_pub.publish(msg)
